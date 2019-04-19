@@ -1,0 +1,44 @@
+# Javascript Node CircleCI 2.0 configuration file
+#
+# Check https://circleci.com/docs/2.0/language-javascript/ for more details
+#
+version: 2
+jobs:
+  build:
+    docker:
+      - image: circleci/openjdk:stretch-node-browsers-legacy
+
+    working_directory: ~/repo
+
+    steps:
+      - checkout
+
+      # Download and cache dependencies
+      - restore_cache:
+          keys:
+          - v2-dependencies-{{ checksum "package.json" }}
+          # fallback to using the latest cache if no exact match is found
+          - v2-dependencies-
+
+      - run: yarn install
+
+      - save_cache:
+          paths:
+            - node_modules
+          key: v2-dependencies-{{ checksum "package.json" }}
+
+      # run tests!
+      - run: yarn tslint
+      - run: yarn test:compile
+      - run: yarn firebase setup:emulators:firestore
+      - run:
+          # Firestore Emulator bind host to = [::1]:8080. Unfortunately CircleCI cannot handle IPv6 address.
+          # Launch jar file directory and override host to IPv4 address.
+          # command: yarn firebase serve --only firestore
+          command: java -jar $HOME/.cache/firebase/emulators/cloud-firestore-emulator-v1.4.3.jar --host=127.0.0.1
+          background: true
+      - run: yarn test
+      - persist_to_workspace:
+          root: .
+          paths:
+            - .
