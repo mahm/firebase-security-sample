@@ -1,0 +1,22 @@
+{
+  "name": "firebase-security-sample",
+  "version": "1.0.0",
+  "license": "MIT",
+  "description": "firebase security rules testing with emulator and TypeScript",
+  "scripts": {
+    "format": "prettier --write **/*.ts",
+    "preset": "tsc",
+    "test": "jest"
+  },
+  "dependencies": {
+    "@firebase/testing": "^0.8.0",
+    "filesystem": "^1.0.1",
+    "firebase": "^5.10.0",
+    "prettier": "^1.17.0",
+    "ts-node": "^8.1.0",
+    "typescript": "^3.4.4"
+  },
+  "devDependencies": {
+    "jest": "^24.7.1"
+  }
+}
