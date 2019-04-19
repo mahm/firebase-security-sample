@@ -6,7 +6,7 @@ version: 2
 jobs:
   build:
     docker:
-      - image: circleci/openjdk:stretch-node-browsers-legacy
+      - image: circleci/openjdk:stretch-node-browsers
 
     working_directory: ~/repo
 
@@ -28,15 +28,7 @@ jobs:
           key: v2-dependencies-{{ checksum "package.json" }}
 
       # run tests!
-      # - run: yarn tslint
-      # - run: yarn test:compile
       - run: node_modules/.bin/firebase setup:emulators:firestore
-      # - run:
-      #     # Firestore Emulator bind host to = [::1]:8080. Unfortunately CircleCI cannot handle IPv6 address.
-      #     # Launch jar file directory and override host to IPv4 address.
-      #     # command: node_modules/.bin/firebase serve --only firestore
-      #     # command: java -jar $HOME/.cache/firebase/emulators/cloud-firestore-emulator-v1.4.3.jar --host=127.0.0.1
-      #     # background: true
       - run: sh ~/repo/.circleci/test.sh
       - persist_to_workspace:
           root: .

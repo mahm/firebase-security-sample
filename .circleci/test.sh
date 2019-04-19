@@ -31,7 +31,7 @@ while [ $RETRIES -lt $RETRY_LIMIT ]; do
     break
   fi
 
-  let RETRIES+=1
+  RETRIES=$(expr $RETRIES + 1)
 
   if [ $RETRIES -ge $RETRY_LIMIT ]; then
     echo "Could not find the firestore emulator. Ending test run."
