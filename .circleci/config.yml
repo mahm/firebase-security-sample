@@ -42,3 +42,9 @@ jobs:
           root: .
           paths:
             - .
+
+workflowsworkflows:
+  version: 2
+  test:
+    jobs:
+      - build
